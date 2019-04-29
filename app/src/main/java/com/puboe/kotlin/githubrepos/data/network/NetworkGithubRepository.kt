@@ -11,6 +11,9 @@ import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
 
+/**
+ * Network [GithubRepository] implementation.
+ */
 class NetworkGithubRepository : GithubRepository {
 
     companion object {
@@ -18,26 +21,38 @@ class NetworkGithubRepository : GithubRepository {
     }
 
     override fun getRepositories(username: String): Result {
-        val url = URL("${BASE_URL}users/$username/repos")
-        val connection = url.openConnection() as HttpURLConnection
         try {
-            connection.doInput = true
-            connection.connect()
-
-            val ois = BufferedReader(InputStreamReader(connection.inputStream))
-            val builder = StringBuilder()
-            ois.forEachLine {
-                builder.append(it)
-            }
-            val jsonArray = JSONArray(builder.toString())
-
-            return Success(jsonArray.toRepositoryList())
+            val response = doGet("${BASE_URL}users/$username/repos")
+            return Success(JSONArray(response).toRepositoryList())
         } catch (e: Exception) {
-
-        } finally {
-            // this is done so that there are no open connections left when this task is going to complete
-            connection.disconnect()
+            e.printStackTrace()
         }
         return Failure()
+    }
+
+    override fun getCommits(username: String, repository: String): Result {
+        try {
+            val response = doGet("${BASE_URL}users/$username/$repository/commits")
+            return Success(JSONArray(response).toRepositoryList()) // TODO
+        } catch (e: Exception) {
+        }
+        return Failure()
+    }
+
+    private fun doGet(url: String): String {
+        val url = URL(url)
+        val connection = url.openConnection() as HttpURLConnection
+        connection.doInput = true
+        connection.connect()
+
+        val ois = BufferedReader(InputStreamReader(connection.inputStream))
+        val builder = StringBuilder()
+        ois.forEachLine {
+            builder.append(it)
+        }
+
+        connection.disconnect()
+
+        return builder.toString()
     }
 }
