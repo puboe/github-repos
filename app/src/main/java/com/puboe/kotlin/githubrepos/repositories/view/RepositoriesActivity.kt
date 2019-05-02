@@ -1,6 +1,8 @@
 package com.puboe.kotlin.githubrepos.repositories.view
 
+import android.content.Context
 import android.os.Bundle
+import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -52,6 +54,7 @@ class RepositoriesActivity : BaseActivity() {
             if (!username.isNullOrBlank()) {
                 getRepositories(username)
             }
+            hideKeyboard()
         }
     }
 
@@ -86,5 +89,12 @@ class RepositoriesActivity : BaseActivity() {
     private fun updateResults(results: List<Repository>) {
         hideLoading()
         (repository_list.adapter as RepositoriesAdapter).updateItems(results)
+    }
+
+    private fun hideKeyboard() {
+        currentFocus?.let { v ->
+            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+            imm?.hideSoftInputFromWindow(v.windowToken, 0)
+        }
     }
 }
