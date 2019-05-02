@@ -18,9 +18,7 @@ class RepositoriesAdapter(var repos: List<Repository>) : RecyclerView.Adapter<Re
             )
         )
 
-
     override fun getItemCount(): Int = repos.size
-
 
     override fun onBindViewHolder(holder: RepositoryViewHolder, position: Int) = holder.bind(repos[position])
 

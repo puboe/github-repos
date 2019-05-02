@@ -40,7 +40,7 @@ class RepositoriesViewModel(private val repository: GithubRepository) : ViewMode
 
     private fun getCommits(username: String, repositoryName: String) {
         launch {
-            // Get repositories in background thread.
+            // Get commits in background thread.
             withContext(Dispatchers.IO) {
                 repository.getCommits(username, repositoryName) { state ->
                     // Update state in main thread.

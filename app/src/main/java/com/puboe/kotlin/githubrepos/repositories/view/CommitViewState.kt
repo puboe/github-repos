@@ -6,7 +6,7 @@ sealed class CommitViewState {
 
     class ShowCommit(val commit: Commit) : CommitViewState()
 
-    object ShowLoading : CommitViewState()
-
     object ShowError : CommitViewState()
+
+    object ShowLoading : CommitViewState()
 }

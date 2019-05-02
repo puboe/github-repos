@@ -6,7 +6,7 @@ import com.puboe.kotlin.githubrepos.repositories.entities.CommitState
 import com.puboe.kotlin.githubrepos.repositories.entities.RepositoriesState
 
 /**
- * Network [GithubRepository] implementation.
+ * [GithubRepository] implementation.
  */
 class GithubRepositoryImpl(
     private val repositoriesProvider: DataProvider<String, RepositoriesState>,

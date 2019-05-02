@@ -71,10 +71,8 @@ class RepositoriesActivity : BaseActivity() {
             is CommitViewState.ShowCommit -> updateRepositoryCommit(state.commit)
             // Do nothing for loading and error states at this point.
             // We might want to add a progress bar or show some kind of error in the future.
-            is CommitViewState.ShowLoading -> {
-            }
-            is CommitViewState.ShowError -> {
-            }
+            is CommitViewState.ShowLoading -> {}
+            is CommitViewState.ShowError -> {}
         }
     }
 
