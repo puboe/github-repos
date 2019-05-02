@@ -8,7 +8,7 @@ import org.json.JSONObject
 class CommitsMapper : DataMapper<Pair<String, JSONArray>, Commit> {
 
     override fun map(source: Pair<String, JSONArray>): Commit {
-        // Get last commit
+        // Get only last commit since we're currently only showing that one.
         val jsonObject = source.second.get(0) as JSONObject
         val commit = jsonObject.optJSONObject("commit")
         return Commit(

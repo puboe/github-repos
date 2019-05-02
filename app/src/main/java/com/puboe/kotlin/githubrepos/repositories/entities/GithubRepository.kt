@@ -1,7 +1,4 @@
-package com.puboe.kotlin.githubrepos.data
-
-import com.puboe.kotlin.githubrepos.repositories.entities.CommitState
-import com.puboe.kotlin.githubrepos.repositories.entities.RepositoriesState
+package com.puboe.kotlin.githubrepos.repositories.entities
 
 interface GithubRepository {
 

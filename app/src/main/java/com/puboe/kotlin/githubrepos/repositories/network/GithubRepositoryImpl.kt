@@ -1,7 +1,7 @@
 package com.puboe.kotlin.githubrepos.repositories.network
 
 import com.puboe.kotlin.githubrepos.core.provider.DataProvider
-import com.puboe.kotlin.githubrepos.data.GithubRepository
+import com.puboe.kotlin.githubrepos.repositories.entities.GithubRepository
 import com.puboe.kotlin.githubrepos.repositories.entities.CommitState
 import com.puboe.kotlin.githubrepos.repositories.entities.RepositoriesState
 

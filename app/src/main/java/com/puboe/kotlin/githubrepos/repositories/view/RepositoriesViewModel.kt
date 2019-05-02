@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.puboe.kotlin.githubrepos.data.GithubRepository
+import com.puboe.kotlin.githubrepos.repositories.entities.GithubRepository
 import com.puboe.kotlin.githubrepos.repositories.entities.CommitState
 import com.puboe.kotlin.githubrepos.repositories.entities.RepositoriesState
 import com.puboe.kotlin.githubrepos.repositories.entities.Repository

@@ -1,6 +1,6 @@
 package com.puboe.kotlin.githubrepos.core.provider
 
-interface DataMapper<S, T> {
+interface DataMapper<in S, out T> {
 
     fun map(source: S): T
 }

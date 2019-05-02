@@ -1,10 +1,7 @@
-package com.puboe.kotlin.githubrepos
+package com.puboe.kotlin.githubrepos.core
 
 import android.view.View
 import android.widget.TextView
-import com.puboe.kotlin.githubrepos.repositories.entities.Repository
-import org.json.JSONArray
-import org.json.JSONObject
 
 fun TextView.setTextOrHide(text: String?) {
     visibility = when (text.isNullOrEmpty()) {

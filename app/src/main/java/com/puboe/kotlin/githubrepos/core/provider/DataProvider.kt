@@ -1,6 +1,6 @@
 package com.puboe.kotlin.githubrepos.core.provider
 
-interface DataProvider<P, T> {
+interface DataProvider<in P, out T> {
 
     fun requestData(params: P, callback: (T) -> Unit)
 }
