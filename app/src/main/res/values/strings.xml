@@ -2,6 +2,9 @@
 
     <string name="app_name">Github repos</string>
 
+    <string name="input_hint">Username</string>
+    <string name="button_text">Search</string>
     <string name="error_message">An error has occurred</string>
+    <string name="last_commit_info">Last commit by %1$s: \"%2$s\"</string>
 
 </resources>
