@@ -15,6 +15,7 @@ class RepositoriesMapper : DataMapper<JSONArray, List<Repository>> {
             repoList.add(
                 Repository(
                     jsonObject.optLong("id"),
+                    jsonObject.optJSONObject("owner").optString("login"),
                     jsonObject.optString("name"),
                     if (description == "null") null else description    // Handle weird json parsing.
                 )

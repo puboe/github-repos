@@ -6,19 +6,22 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.puboe.kotlin.githubrepos.R
 import com.puboe.kotlin.githubrepos.core.view.BaseActivity
+import com.puboe.kotlin.githubrepos.repositories.entities.Commit
 import com.puboe.kotlin.githubrepos.repositories.entities.Repository
-import com.puboe.kotlin.githubrepos.repositories.network.GithubRepositoriesProvider
-import com.puboe.kotlin.githubrepos.repositories.network.GithubRepositoryImpl
-import com.puboe.kotlin.githubrepos.repositories.network.RepositoriesMapper
+import com.puboe.kotlin.githubrepos.repositories.network.*
 import kotlinx.android.synthetic.main.activity_repositories.*
 
 class RepositoriesActivity : BaseActivity() {
 
+    // Could be improved with DI framework such as Dagger2.
     private val repositoriesViewModel: RepositoriesViewModel by lazy {
         ViewModelProviders.of(
             this,
             RepositoriesViewModel.Factory(
-                GithubRepositoryImpl(GithubRepositoriesProvider(RepositoriesMapper()))
+                GithubRepositoryImpl(
+                    GithubRepositoriesProvider(RepositoriesMapper()),
+                    GithubCommitsProvider(CommitsMapper())
+                )
             )
         ).get(RepositoriesViewModel::class.java)
     }
@@ -33,7 +36,9 @@ class RepositoriesActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
         repositoriesViewModel.repositoriesViewState
-            .observe(this, Observer { newState -> viewStateChanged(newState) })
+            .observe(this, Observer { newState -> repositoriesStateChanged(newState) })
+        repositoriesViewModel.commitsViewState
+            .observe(this, Observer { newState -> commitStateChanged(newState) })
     }
 
     private fun setupView() {
@@ -50,12 +55,28 @@ class RepositoriesActivity : BaseActivity() {
         }
     }
 
-    private fun viewStateChanged(state: RepositoriesViewState) {
+    private fun repositoriesStateChanged(state: RepositoriesViewState) {
         when (state) {
-            is RepositoriesViewState.Loading -> showLoading()
+            is RepositoriesViewState.ShowLoading -> showLoading()
             is RepositoriesViewState.ShowError -> showError()
             is RepositoriesViewState.ShowRepositories -> updateResults(state.repositories)
         }
+    }
+
+    private fun commitStateChanged(state: CommitViewState) {
+        when (state) {
+            is CommitViewState.ShowCommit -> updateRepositoryCommit(state.commit)
+            // Do nothing for loading and error states at this point.
+            // We might want to add a progress bar or show some kind of error in the future.
+            is CommitViewState.ShowLoading -> {
+            }
+            is CommitViewState.ShowError -> {
+            }
+        }
+    }
+
+    private fun updateRepositoryCommit(commit: Commit) {
+        (repository_list.adapter as RepositoriesAdapter).updateRepositoryCommit(commit)
     }
 
     private fun getRepositories(username: String) {

@@ -1,5 +1,6 @@
 package com.puboe.kotlin.githubrepos.data
 
+import com.puboe.kotlin.githubrepos.repositories.entities.CommitState
 import com.puboe.kotlin.githubrepos.repositories.entities.RepositoriesState
 
 interface GithubRepository {
@@ -10,7 +11,7 @@ interface GithubRepository {
     fun getRepositories(username: String, callback: (RepositoriesState) -> Unit)
 
     /**
-     * Get commits for the given repository.
+     * Get commit for the given repository.
      */
-//    fun getCommits(username: String, repository: String): RepositoriesState
+    fun getCommits(username: String, repository: String, callback: (CommitState) -> Unit)
 }
