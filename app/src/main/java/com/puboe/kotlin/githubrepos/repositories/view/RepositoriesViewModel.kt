@@ -4,25 +4,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.puboe.kotlin.githubrepos.repositories.entities.CommitState
 import com.puboe.kotlin.githubrepos.repositories.entities.GithubRepository
 import com.puboe.kotlin.githubrepos.repositories.entities.RepositoriesState
 import com.puboe.kotlin.githubrepos.repositories.entities.Repository
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import kotlin.coroutines.CoroutineContext
 
-class RepositoriesViewModel(private val repository: GithubRepository) : ViewModel(),
-    CoroutineScope {
+class RepositoriesViewModel(private val repository: GithubRepository) : ViewModel() {
 
     private val repositoryLiveData: MutableLiveData<RepositoriesViewState> = MutableLiveData()
     private val commitsLiveData: MutableLiveData<CommitViewState> = MutableLiveData()
-
-    private val job = Job()
-    override val coroutineContext: CoroutineContext
-        get() = Dispatchers.Main + job
 
     val repositoriesViewState: LiveData<RepositoriesViewState>
         get() = repositoryLiveData
@@ -31,7 +23,7 @@ class RepositoriesViewModel(private val repository: GithubRepository) : ViewMode
         get() = commitsLiveData
 
     fun getRepositories(username: String) {
-        launch {
+        viewModelScope.launch {
             // Get repositories with main-safe suspend function.
             repository.getRepositories(username) { state ->
                 updateRepositoriesState(state)
@@ -40,7 +32,7 @@ class RepositoriesViewModel(private val repository: GithubRepository) : ViewMode
     }
 
     private fun getCommits(username: String, repositoryName: String) {
-        launch {
+        viewModelScope.launch {
             // Get commits with main-safe suspend function.
             repository.getCommits(username, repositoryName) { state ->
                 updateCommitState(state)
@@ -71,11 +63,6 @@ class RepositoriesViewModel(private val repository: GithubRepository) : ViewMode
             is CommitState.Loading -> CommitViewState.ShowLoading
             is CommitState.Error -> CommitViewState.ShowError
         }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        job.cancel()
     }
 
     class Factory(val repository: GithubRepository) : ViewModelProvider.Factory {
