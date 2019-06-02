@@ -10,7 +10,7 @@ class GithubCommitsProvider(
     private val mapper: DataMapper<Pair<String, JSONArray>, Commit>
 ) : BaseDataProvider(), DataProvider<GithubCommitsProvider.CommitParams, CommitState> {
 
-    override fun requestData(params: CommitParams, callback: (CommitState) -> Unit) {
+    override suspend fun requestData(params: CommitParams, callback: (CommitState) -> Unit) {
         callback(CommitState.Loading)
         try {
             val response = doGet("${BASE_URL}repos/${params.username}/${params.repository}/commits")

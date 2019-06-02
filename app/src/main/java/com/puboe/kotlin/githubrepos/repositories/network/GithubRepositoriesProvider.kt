@@ -10,7 +10,7 @@ class GithubRepositoriesProvider(
     private val mapper: DataMapper<JSONArray, List<Repository>>
 ) : BaseDataProvider(), DataProvider<String, RepositoriesState> {
 
-    override fun requestData(params: String, callback: (RepositoriesState) -> Unit) {
+    override suspend fun requestData(params: String, callback: (RepositoriesState) -> Unit) {
         callback(RepositoriesState.Loading)
         try {
             val response = doGet("${BASE_URL}users/$params/repos")
