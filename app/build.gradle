@@ -38,6 +38,7 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
     implementation "androidx.core:core-ktx:$coreKtxVersion"
     implementation "androidx.constraintlayout:constraintlayout:$constraintVersion"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$viewModelKtxVersion"
 
     implementation "com.android.support:design:$supportVersion"
 
